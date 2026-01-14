@@ -258,6 +258,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           },
         },
       },
+      {
+        name: 'help',
+        description: 'Get comprehensive documentation for all protocol-tracker functions',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      }
     ],
   };
 });
@@ -407,6 +415,188 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         content: [{
           type: 'text',
           text: `🎯 Protocol Suggestions\n\nContext: ${currentContext || 'General'}\n\n${suggestions.join('\n')}\n\nUse protocol_log_step to track protocol compliance.`
+        }]
+      };
+    }
+    
+    case 'help': {
+      const helpText = `
+# 📋 Protocol Tracker - Audit Trail and Compliance System
+
+## Purpose
+MCP tool for tracking protocol adherence, logging initialization sequences, and maintaining audit trails of Claude's activities. Ensures systematic compliance with established protocols.
+
+## Available Tools
+
+### protocol_start_session
+Start tracking a new protocol session:
+- **sessionType**: Type of session (initialization | work | exploration | etc.)
+- **expectedProtocols**: List of protocols expected to be followed (optional)
+- Initializes session tracking for protocol compliance monitoring
+- Creates audit trail foundation for the session
+
+### protocol_log_step
+Log completion of a protocol step:
+- **protocolName**: Name of the protocol
+- **step**: Description of the step completed
+- **status**: Status of the step (completed | skipped | failed, optional)
+- Records individual protocol step execution for compliance tracking
+
+### protocol_log_activity
+Log any significant activity or tool usage:
+- **activity**: Description of the activity
+- **tool**: Tool or function used (optional)
+- **context**: Context or purpose of the activity (optional)
+- Maintains comprehensive activity log for audit purposes
+
+### protocol_log_violation
+Log a protocol violation or compliance issue:
+- **violation**: Description of the violation
+- **severity**: Severity of the violation (low | medium | high | critical)
+- **protocolName**: Name of the protocol violated (optional)
+- Documents deviations from established protocols for analysis
+
+### protocol_check_compliance
+Check current protocol compliance status:
+- No parameters required
+- Returns current session compliance metrics
+- Identifies any violations or missing protocol steps
+- Provides overall compliance assessment
+
+### protocol_get_session_report
+Get comprehensive session activity report:
+- **includeDetails**: Include detailed step-by-step breakdown (optional)
+- Returns complete session analysis with compliance metrics
+- Detailed audit trail of all activities and protocol adherence
+
+### protocol_suggest_missing
+Suggest missing protocol steps based on current activity:
+- **currentContext**: Current work context or situation (optional)
+- Analyzes current session against expected protocols
+- Identifies potentially missing or skipped protocol steps
+- Provides recommendations for protocol compliance
+
+## Protocol Compliance Framework
+
+### Session Tracking
+- **Initialization**: Proper session setup with expected protocols
+- **Step Logging**: Systematic recording of protocol step completion
+- **Activity Monitoring**: Comprehensive logging of significant activities
+- **Violation Tracking**: Documentation of any protocol deviations
+
+### Compliance Assessment
+- **Real-time Monitoring**: Continuous tracking of protocol adherence
+- **Compliance Metrics**: Quantitative assessment of protocol following
+- **Gap Analysis**: Identification of missing or incomplete protocol steps
+- **Recommendation Engine**: Suggestions for maintaining compliance
+
+## Common Use Cases
+
+### System Initialization Auditing
+- Track brain_init protocol compliance
+- Log tool loading and context establishment
+- Monitor system state initialization
+- Verify proper startup sequence adherence
+
+### Workflow Compliance Monitoring
+- Ensure systematic problem-solving approach
+- Track protocol adherence during complex tasks
+- Monitor quality assurance protocol compliance
+- Document deviation from established procedures
+
+### Quality Assurance Auditing
+- Maintain audit trails for verification processes
+- Track testing and validation protocol compliance
+- Monitor code review and approval processes
+- Document quality control step completion
+
+### Research Protocol Tracking
+- Log systematic research methodology adherence
+- Track literature review and analysis protocols
+- Monitor data collection and analysis procedures
+- Document research ethics and compliance steps
+
+## Session Lifecycle
+
+### Session Initialization
+1. **protocol_start_session** - Begin tracking with session type
+2. Define expected protocols for the session
+3. Establish baseline for compliance monitoring
+
+### Activity Execution
+1. **protocol_log_step** - Record each protocol step completion
+2. **protocol_log_activity** - Log significant activities and tool usage
+3. **protocol_log_violation** - Document any compliance issues
+4. **protocol_check_compliance** - Monitor ongoing compliance status
+
+### Session Analysis
+1. **protocol_suggest_missing** - Identify gaps in protocol adherence
+2. **protocol_get_session_report** - Generate comprehensive audit report
+3. Review compliance metrics and improvement opportunities
+
+## Compliance Metrics
+
+### Protocol Adherence Scoring
+- **Completion Rate**: Percentage of expected protocol steps completed
+- **Violation Severity**: Weighted score based on violation severity levels
+- **Timeliness**: Protocol step completion timing analysis
+- **Consistency**: Adherence to established protocol sequences
+
+### Audit Trail Quality
+- **Documentation Completeness**: Thoroughness of activity logging
+- **Step Granularity**: Level of detail in protocol step recording
+- **Context Richness**: Quality of contextual information capture
+- **Traceability**: Ability to reconstruct decision-making processes
+
+## Violation Severity Levels
+
+### Critical Violations
+- **Security Protocol Breaches**: Critical safety or security issues
+- **Data Integrity Violations**: Actions that compromise data accuracy
+- **System Safety Issues**: Violations that could cause system instability
+
+### High Violations
+- **Major Protocol Deviations**: Significant departures from established procedures
+- **Quality Assurance Bypasses**: Skipping important quality control steps
+- **Documentation Failures**: Missing critical documentation requirements
+
+### Medium Violations
+- **Minor Protocol Deviations**: Small departures from standard procedures
+- **Incomplete Documentation**: Partial compliance with documentation requirements
+- **Timing Issues**: Protocol steps completed outside recommended timeframes
+
+### Low Violations
+- **Style Guide Deviations**: Minor formatting or style inconsistencies
+- **Optional Step Omissions**: Skipping recommended but non-critical steps
+- **Documentation Formatting**: Minor issues with documentation format
+
+## Reporting and Analysis
+
+### Session Reports
+- **Executive Summary**: High-level compliance overview
+- **Detailed Activity Log**: Complete chronological activity record
+- **Compliance Metrics**: Quantitative compliance assessment
+- **Recommendations**: Suggestions for improved protocol adherence
+
+### Trend Analysis
+- **Historical Compliance**: Compliance trends over multiple sessions
+- **Protocol Effectiveness**: Analysis of which protocols are most effective
+- **Common Violations**: Identification of frequently occurring compliance issues
+- **Improvement Opportunities**: Areas where protocol adherence can be enhanced
+
+## Integration Benefits
+- **Accountability**: Clear audit trails for all activities
+- **Quality Assurance**: Systematic compliance with established protocols
+- **Continuous Improvement**: Data-driven protocol refinement
+- **Risk Management**: Early identification of compliance issues
+- **Transparency**: Complete visibility into decision-making processes
+
+The Protocol Tracker ensures systematic compliance with established procedures while maintaining comprehensive audit trails for accountability and continuous improvement.
+`;
+      return {
+        content: [{
+          type: 'text',
+          text: helpText
         }]
       };
     }
